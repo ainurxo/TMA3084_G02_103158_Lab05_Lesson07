@@ -17,18 +17,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false, 
+      debugShowCheckedModeBanner: false,
       home: CarTablePage(),
     );
-  } 
   }
-  
-  class CarTablePage extends StatefulWidget{
-    const CarTablePage({super.key});
+}
+
+class CarTablePage extends StatefulWidget {
+  const CarTablePage({super.key});
 
   @override
   State<CarTablePage> createState() => _CarTablePageState();
-  }
+}
 
 class _CarTablePageState extends State<CarTablePage> {
   int currentIndex = 0;
@@ -39,13 +39,20 @@ class _CarTablePageState extends State<CarTablePage> {
     Car("Perodua", 2024, 50000),
   ];
 
-  int? sortColumnIndex;
+  int? sortColumnIndex = 2;
   bool sortAscending = true;
+
+  @override
+  void initState() {
+    super.initState();
+    cars.sort((a, b) => a.price.compareTo(b.price));
+  }
 
   void sortBy(
     int columnIndex,
     bool ascending,
-    int Function(Car a, Car b) compare,) {
+    int Function(Car a, Car b) compare,
+  ) {
     setState(() {
       cars.sort((a, b) => ascending ? compare(a, b) : compare(b, a));
       sortColumnIndex = columnIndex;
@@ -57,7 +64,7 @@ class _CarTablePageState extends State<CarTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text("Car Table Page"),
+        title: const Text("Car Table Page"),
         backgroundColor: const Color.fromARGB(255, 30, 9, 53),
         foregroundColor: const Color.fromARGB(255, 233, 221, 243),
       ),
@@ -66,30 +73,35 @@ class _CarTablePageState extends State<CarTablePage> {
         sortColumnIndex: sortColumnIndex,
         sortAscending: sortAscending,
         border: TableBorder.all(color: Colors.black),
-        headingRowColor: WidgetStateProperty.all<Color>(const Color.fromARGB(255, 243, 222, 246)),
+        headingRowColor: WidgetStateProperty.all<Color>(
+          const Color.fromARGB(255, 243, 222, 246),
+        ),
         columns: [
           DataColumn(
             label: const Text("Car Make"),
-            onSort: (i, ascending) => sortBy(i, ascending, (a,b) => a.make.compareTo(b.make)),
+            onSort: (i, ascending) =>
+                sortBy(i, ascending, (a, b) => a.make.compareTo(b.make)),
           ),
           DataColumn(
             label: const Text("Model"),
-            onSort: (i, ascending) => sortBy(i, ascending, (a,b) => a.model.compareTo(b.model)),
+            onSort: (i, ascending) =>
+                sortBy(i, ascending, (a, b) => a.model.compareTo(b.model)),
           ),
           DataColumn(
             label: const Text("Price"),
-            onSort: (i, ascending) => sortBy(i, ascending, (a,b) => a.price.compareTo(b.price)),
+            onSort: (i, ascending) =>
+                sortBy(i, ascending, (a, b) => a.price.compareTo(b.price)),
           ),
         ],
-          rows: cars.map((Car car){
-            return DataRow(
-              cells: [
-                DataCell(Text(car.make)),
-                DataCell(Text("${car.model}")),
-                DataCell(Text("${car.price}")),
-              ],
-            );
-          }).toList(),
+        rows: cars.map((Car car) {
+          return DataRow(
+            cells: [
+              DataCell(Text(car.make)),
+              DataCell(Text("${car.model}")),
+              DataCell(Text("${car.price}")),
+            ],
+          );
+        }).toList(),
       ),
     );
   }
