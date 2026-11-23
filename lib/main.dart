@@ -83,7 +83,7 @@ class _CarTablePageState extends State<CarTablePage> {
                 sortBy(i, ascending, (a, b) => a.make.compareTo(b.make)),
           ),
           DataColumn(
-            label: const Text("Model"),
+            label: const Text("Car Model"),
             onSort: (i, ascending) =>
                 sortBy(i, ascending, (a, b) => a.model.compareTo(b.model)),
           ),
