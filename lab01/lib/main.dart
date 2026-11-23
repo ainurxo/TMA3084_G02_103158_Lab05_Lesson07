@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../lab01/lib/screen1.dart';
-import '../../lab01/lib/screen2.dart';
-import '../../lab01/lib/screen3.dart';
-import '../../lab01/lib/screen4.dart';
+import 'screen1.dart';
+import 'screen2.dart';
+import 'screen3.dart';
+import 'screen4.dart';
 
 void main() => runApp(const MyApp());
 
