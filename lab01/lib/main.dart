@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'screen1.dart';
 import 'screen2.dart';
 import 'screen3.dart';
 import 'screen4.dart';
 
-void main() => runApp(const MyApp());
+class TabModel extends ChangeNotifier {
+  int selectedIndex = 0;
+
+  void updateIndex(int index) {
+    if (selectedIndex == index) return;
+    selectedIndex = index;
+    notifyListeners();
+  }
+}
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TabModel(),
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BottomNaviLab(),
     );
@@ -28,8 +45,6 @@ class BottomNaviLab extends StatefulWidget {
 }
 
 class _BottomNaviLabState extends State<BottomNaviLab> {
-  int currentIndex = 0;
-
   final List<Widget> screens = const [
     Screen1(),
     Screen2(),
@@ -39,34 +54,24 @@ class _BottomNaviLabState extends State<BottomNaviLab> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = context.watch<TabModel>().selectedIndex;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ainurxo Navigation Bar"),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+        title: const Text('Bottom Navigation Bar'),
       ),
-
-      body: screens[currentIndex],
-
+      body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.white,
-        backgroundColor: Colors.deepPurple,
-        iconSize: 35,
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          context.read<TabModel>().updateIndex(index);
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.alarm), label: "Alarm"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: "Business",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: "School"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Alarm'),
+          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business'),
+          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
         ],
       ),
     );
