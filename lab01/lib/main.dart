@@ -57,9 +57,7 @@ class _BottomNaviLabState extends State<BottomNaviLab> {
     final selectedIndex = context.watch<TabModel>().selectedIndex;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bottom Navigation Bar'),
-      ),
+      appBar: AppBar(title: const Text('Bottom Navigation Bar')),
       body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -70,7 +68,10 @@ class _BottomNaviLabState extends State<BottomNaviLab> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Alarm'),
-          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Business',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
         ],
       ),
