@@ -41,7 +41,7 @@ class _BottomNaviLabState extends State<BottomNaviLab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ainurxo Navigation Bar"),
+        title: Text("Buttom Navigation Bar"),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
